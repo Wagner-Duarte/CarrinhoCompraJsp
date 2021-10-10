@@ -25,8 +25,6 @@ public class FilterServlet implements Filter {
 
         this.entityManagerFactory = Persistence.createEntityManagerFactory("CarrinhoPU");
 
-
-
     }
 
     @Override

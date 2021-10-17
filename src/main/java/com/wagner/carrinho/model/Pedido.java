@@ -3,65 +3,79 @@ package com.wagner.carrinho.model;
 import com.wagner.carrinho.core.BaseEntity;
 
 import java.math.BigDecimal;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.*;
+
+/**
+ * Aqui nessa classe o atributo ID é utilizado como NUMERO DO PEDIDO
+ */
 
 
 @Entity
 @Table(name = "pedido")
 public class Pedido extends BaseEntity {
 
-    private String dataDoPedido;
-    private Long numeroDoPedido;
-    private Long codigoDoCliente;
-    private String itensDoPedido;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataDoPedido;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
+
+    @OneToMany(mappedBy = "pedido", fetch = FetchType.LAZY)
+    private List<ItensPedido> itensDoPedido;
+
     private BigDecimal valorTotal;
     private BigDecimal valorDoFrete;
+
 
 
     public Pedido() {
 
     }
 
-    public Pedido(Long id, String dataDoPedido, Long numeroDoPedido, Long codigoDoCliente, String itensDoPedido, BigDecimal valorTotal, BigDecimal valorDoFrete) {
+    public Pedido(Long id, Date dataDoPedido, Cliente cliente, List<ItensPedido> itensDoPedido, BigDecimal valorTotal, BigDecimal valorDoFrete) {
         super(id);
         this.dataDoPedido = dataDoPedido;
-        this.numeroDoPedido = numeroDoPedido;
-        this.codigoDoCliente = codigoDoCliente;
+        this.cliente = cliente;
         this.itensDoPedido = itensDoPedido;
         this.valorTotal = valorTotal;
         this.valorDoFrete = valorDoFrete;
     }
 
-    public String getDataDoPedido() {
+
+    public void calculaValorTotal (){
+
+        this.valorTotal = new BigDecimal(0);
+        for(ItensPedido itensPedido:itensDoPedido) {
+            this.valorTotal = this.valorTotal.add(itensPedido.getValorTotal());
+        }
+    }
+
+
+
+    public Date getDataDoPedido() {
         return dataDoPedido;
     }
 
-    public void setDataDoPedido(String dataDoPedido) {
+    public void setDataDoPedido(Date dataDoPedido) {
         this.dataDoPedido = dataDoPedido;
     }
 
-    public Long getNumeroDoPedido() {
-        return numeroDoPedido;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setNumeroDoPedido(Long numeroDoPedido) {
-        this.numeroDoPedido = numeroDoPedido;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    public Long getCodigoDoCliente() {
-        return codigoDoCliente;
-    }
-
-    public void setCodigoDoCliente(Long codigoDoCliente) {
-        this.codigoDoCliente = codigoDoCliente;
-    }
-
-    public String getItensDoPedido() {
+    public List<ItensPedido> getItensDoPedido() {
         return itensDoPedido;
     }
 
-    public void setItensDoPedido(String itensDoPedido) {
+    public void setItensDoPedido(List<ItensPedido> itensDoPedido) {
         this.itensDoPedido = itensDoPedido;
     }
 

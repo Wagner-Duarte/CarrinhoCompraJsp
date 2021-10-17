@@ -1,9 +1,10 @@
 package com.wagner.carrinho.model;
 
 import com.wagner.carrinho.core.BaseEntity;
+import com.wagner.carrinho.enums.Uf;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -16,23 +17,18 @@ public class Cliente extends BaseEntity {
     private String cep;
     private String bairro;
     private String cidade;
-    private String uf;
+    private Uf uf;
     private String telefone;
-    private String nossa;
+
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
+    private List<Pedido> pedidos;
 
     public Cliente() {
 
     }
 
-    public String getNossa() {
-        return nossa;
-    }
 
-    public void setNossa(String nossa) {
-        this.nossa = nossa;
-    }
-
-    public Cliente(Long id, String nomeCompleto, String cpf, String endereco, String cep, String bairro, String cidade, String uf, String telefone, String nossa) {
+    public Cliente(Long id, String nomeCompleto, String cpf, String endereco, String cep, String bairro, String cidade, Uf uf, String telefone, List<Pedido> pedidos) {
         super(id);
         this.nomeCompleto = nomeCompleto;
         this.cpf = cpf;
@@ -42,6 +38,15 @@ public class Cliente extends BaseEntity {
         this.cidade = cidade;
         this.uf = uf;
         this.telefone = telefone;
+        this.pedidos = pedidos;
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
     }
 
     public String getNomeCompleto() {
@@ -92,11 +97,11 @@ public class Cliente extends BaseEntity {
         this.cidade = cidade;
     }
 
-    public String getUf() {
+    public Uf getUf() {
         return uf;
     }
 
-    public void setUf(String uf) {
+    public void setUf(Uf uf) {
         this.uf = uf;
     }
 

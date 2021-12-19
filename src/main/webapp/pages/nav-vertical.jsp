@@ -24,7 +24,7 @@
                     <a href="#">Usuarios</a>
                 </li>
                 <li>
-                    <a href="#">Clientes</a>
+                    <a href="#" id="ref-cliente">Clientes</a>
                 </li>
                 <li>
                     <a href="#">Produtos</a>
@@ -45,4 +45,8 @@
 
 
 </nav>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+<script>$('#ref-cliente').on('click', function(){
+        $('#dynamic-conteudo').load('pages/cadastro-cliente.jsp')
+})</script>
 </html>
